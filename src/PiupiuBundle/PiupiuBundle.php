@@ -1,9 +1,9 @@
 <?php
 
-namespace AppBundle;
+namespace PiupiuBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class AppBundle extends Bundle
+class PiupiuBundle extends Bundle
 {
 }

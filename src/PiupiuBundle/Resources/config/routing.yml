@@ -1,0 +1,3 @@
+piupiu_homepage:
+    path:     /
+    defaults: { _controller: PiupiuBundle:Default:index }
