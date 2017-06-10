@@ -1,4 +1,6 @@
-piupiu
-======
+# piupiu
 
-A Symfony project created on June 9, 2017, 7:10 pm.
+Projet 5 OpenClassRooms
+
+## Contrainte technique
+* symfony 3
