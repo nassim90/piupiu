@@ -2,6 +2,7 @@
 
 namespace PiupiuBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,6 +21,16 @@ class Bird
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * One Bird has Many Observations.
+     * @ORM\OneToMany(targetEntity="Bird", mappedBy="bird")
+     */
+    private $observations;
+
+    public function __construct() {
+        $this->observations = new ArrayCollection();
+    }
 
     /**
      * @var string
@@ -1232,5 +1243,39 @@ class Bird
     public function getMar()
     {
         return $this->mar;
+    }
+
+    /**
+     * Add observation
+     *
+     * @param \PiupiuBundle\Entity\Bird $observation
+     *
+     * @return Bird
+     */
+    public function addObservation(\PiupiuBundle\Entity\Bird $observation)
+    {
+        $this->observations[] = $observation;
+
+        return $this;
+    }
+
+    /**
+     * Remove observation
+     *
+     * @param \PiupiuBundle\Entity\Bird $observation
+     */
+    public function removeObservation(\PiupiuBundle\Entity\Bird $observation)
+    {
+        $this->observations->removeElement($observation);
+    }
+
+    /**
+     * Get observations
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getObservations()
+    {
+        return $this->observations;
     }
 }

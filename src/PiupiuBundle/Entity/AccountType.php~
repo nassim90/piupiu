@@ -72,38 +72,5 @@ class AccountType
     {
         return $this->designation;
     }
-
-    /**
-     * Add user
-     *
-     * @param \PiupiuBundle\Entity\User $user
-     *
-     * @return AccountType
-     */
-    public function addUser(\PiupiuBundle\Entity\User $user)
-    {
-        $this->users[] = $user;
-
-        return $this;
-    }
-
-    /**
-     * Remove user
-     *
-     * @param \PiupiuBundle\Entity\User $user
-     */
-    public function removeUser(\PiupiuBundle\Entity\User $user)
-    {
-        $this->users->removeElement($user);
-    }
-
-    /**
-     * Get users
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getUsers()
-    {
-        return $this->users;
-    }
 }
+
