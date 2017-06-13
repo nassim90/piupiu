@@ -1,3 +1,7 @@
 piupiu_homepage:
     path:     /
     defaults: { _controller: PiupiuBundle:Default:index }
+
+piupiu_curr_loc:
+    path:   /current_location
+    defaults: { _controller: PiupiuBundle:Default:currentLocation }

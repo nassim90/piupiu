@@ -10,14 +10,22 @@ Projet 5 OpenClassRooms
   * `cd InstallDirectory`
   * `composer update`
   * Provide parameters or change `parameters.yml` later
+    * database_host: _default_
+    * database_port: _default_
+    * database_name: **piupiu**
+    * database_user: **YourUser**
+    * database_password: **YourPwd**
+    * mailer_transport: _default_
+    * mailer_host: _default_
+    * mailer_user: _default_
+    * mailer_password: _default_
+    * secret: **yourSecretKey**
+    * google_api: **yourGoogleMapsApiKey**
   * Create database
     * `php/bin console d:d:c`
-
-## todo
   * Create schema
     * `php/bin console d:s:c`
   * Load fixtures
     * `php/bin console d:f:l`
   * Run server
-    * `php/bin console s:r` 
-  
+    * `php/bin console s:r`
