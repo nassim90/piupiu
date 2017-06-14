@@ -5,3 +5,7 @@ piupiu_homepage:
 piupiu_curr_loc:
     path:   /current_location
     defaults: { _controller: PiupiuBundle:Default:currentLocation }
+
+piupiu_login:
+  path: /login
+  defaults: { _controller: PiupiuBundle:Login:login }

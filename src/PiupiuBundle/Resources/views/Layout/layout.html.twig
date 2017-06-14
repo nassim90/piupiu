@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OCR - {% block title %}Louvre{% endblock title %}</title>
+
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+</head>
+<body>
+    {% include "PiupiuBundle:Layout:navigation.html.twig" %}
+    {% include "PiupiuBundle:Layout:flashbags.html.twig" %}
+    {% block body %}{% endblock body %}
+    {% include "PiupiuBundle:Layout:footer.html.twig" %}
+    {% include "PiupiuBundle:Layout:script.html.twig" %}
+    {% block script %}{% endblock script %}
+</body>
+</html>
