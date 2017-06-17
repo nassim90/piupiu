@@ -8,10 +8,17 @@ class LoginController extends Controller
 {
     public function loginAction()
     {
-        $error = $this->get('security.authentication_utils')
-            ->getLastAuthenticationError();
+        $helper = $this->get('security.authentication_utils');
         return $this->render('PiupiuBundle:Default:login.html.twig', [
-            'error' => $error
+            // last username entered by the user (if any)
+            'last_username' => $helper->getLastUsername(),
+            // last authentication error (if any)
+            'error' => $helper->getLastAuthenticationError(),
         ]);
+    }
+
+    public function loginCheckAction()
+    {
+        // will never be executed
     }
 }

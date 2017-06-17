@@ -10,4 +10,16 @@ namespace PiupiuBundle\Repository;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @param string $username
+     * @return User
+     */
+    public function findByUsernameOrEmail($username)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.username = :username OR u.email = :username')
+            ->setParameter('username', $username)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }
