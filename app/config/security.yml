@@ -6,9 +6,10 @@ security:
             guard:
                 authenticators:
                     - login_authenticator
-
     encoders:
-            PiupiuBundle\Entity\User: bcrypt
+            PiupiuBundle\Entity\User:
+              algorithm: bcrypt
+              cost: 13
     providers:
         database_users:
             entity:

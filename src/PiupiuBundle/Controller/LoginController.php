@@ -16,9 +16,4 @@ class LoginController extends Controller
             'error' => $helper->getLastAuthenticationError(),
         ]);
     }
-
-    public function loginCheckAction()
-    {
-        // will never be executed
-    }
 }

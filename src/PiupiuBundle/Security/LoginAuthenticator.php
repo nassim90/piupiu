@@ -8,6 +8,8 @@
 namespace PiupiuBundle\Security;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -17,14 +19,28 @@ use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticato
 class LoginAuthenticator extends AbstractFormLoginAuthenticator
 {
     private $container;
-    public function __construct(ContainerInterface $container)
-    {
+
+    public function __construct(ContainerInterface $container) {
         $this->container = $container;
     }
 
-    public function getCredentials(Request $request)
-    {
-        if ($request->getPathInfo() != '/login_check') {
+    /**
+     * {@inheritdoc}
+     * @return string
+     */
+    protected function getLoginUrl() {
+        return $this->container->get('router')
+            ->generate('security_login');
+    }
+
+    /**
+     * {@inheritdoc}
+     * @param Request $request
+     *
+     * @return mixed|null
+     */
+    public function getCredentials(Request $request) {
+        if ($request->getPathInfo() != '/login' || !$request->isMethod('POST')) {
             return;
         }
 
@@ -38,34 +54,47 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator
         ];
     }
 
-    public function getUser($credentials, UserProviderInterface $userProvider)
-    {
+    /**
+     * {@inheritdoc}
+     * @param mixed $credentials
+     * @param UserProviderInterface $userProvider
+     *
+     * @throws AuthenticationException
+     *
+     * @return UserInterface|null
+     */
+    public function getUser($credentials, UserProviderInterface $userProvider) {
         $username = $credentials['username'];
-        $userRepo = $this->container
+        /*$userRepo = $this->container
             ->get('doctrine')
             ->getManager()
-            ->getRepository('AppBundle:User');
-        return $userRepo->findByUsernameOrEmail($username);
+            ->getRepository('PiupiuBundle:User');
+        return $userRepo->findByUsernameOrEmail($username);*/
+        return $userProvider->loadUserByUsername($username);
     }
 
-    public function checkCredentials($credentials, UserInterface $user)
-    {
+    /**
+     * {@inheritdoc}
+     * @param mixed $credentials
+     * @param UserInterface $user
+     *
+     * @return bool
+     *
+     * @throws AuthenticationException
+     */
+    public function checkCredentials($credentials, UserInterface $user) {
         $plainPassword = $credentials['password'];
         $encoder = $this->container->get('security.password_encoder');
         if (!$encoder->isPasswordValid($user, $plainPassword)) {
-            // throw any AuthenticationException
             throw new BadCredentialsException();
         }
+        return TRUE;
     }
 
-    protected function getLoginUrl()
-    {
-        return $this->container->get('router')
-            ->generate('security_login');
-    }
-
-    protected function getDefaultSuccessRedirectUrl()
-    {
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultSuccessRedirectUrl() {
         return $this->container->get('router')
             ->generate('piupiu_homepage');
     }

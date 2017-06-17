@@ -2,3 +2,8 @@ services:
     login_authenticator:
         class: PiupiuBundle\Security\LoginAuthenticator
         arguments: ["@service_container"]
+    piupiu.last_login_subscriber:
+            class: PiupiuBundle\EventListener\LastLoginSubscriber
+            arguments: ["@doctrine.orm.entity_manager"]
+            tags:
+                - { name: kernel.event_subscriber }

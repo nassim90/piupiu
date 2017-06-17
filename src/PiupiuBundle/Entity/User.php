@@ -2,8 +2,8 @@
 
 namespace PiupiuBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -64,6 +64,11 @@ class User implements UserInterface
      * @ORM\Column(name="phone", type="string", length=255, nullable=true)
      */
     private $phone;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $lastLoginTime;
 
     /**
      * @ORM\ManyToOne(targetEntity="AccountType", inversedBy="users")
@@ -311,6 +316,7 @@ class User implements UserInterface
      */
     public function getRoles() {
         // TODO: Implement getRoles() method.
+        return [];
     }
 
     /**
@@ -332,5 +338,29 @@ class User implements UserInterface
      */
     public function eraseCredentials() {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * Set lastLoginTime
+     *
+     * @param \DateTime $lastLoginTime
+     *
+     * @return User
+     */
+    public function setLastLoginTime($lastLoginTime)
+    {
+        $this->lastLoginTime = $lastLoginTime;
+
+        return $this;
+    }
+
+    /**
+     * Get lastLoginTime
+     *
+     * @return \DateTime
+     */
+    public function getLastLoginTime()
+    {
+        return $this->lastLoginTime;
     }
 }
