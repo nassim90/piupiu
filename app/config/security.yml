@@ -1,17 +1,36 @@
 security:
-    firewalls:
-        main:
-            anonymous: ~
-            provider: database_users
-            guard:
-                authenticators:
-                    - login_authenticator
-    encoders:
-            PiupiuBundle\Entity\User:
-              algorithm: bcrypt
-              cost: 13
-    providers:
-        database_users:
-            entity:
-              class: PiupiuBundle:User
-              property: username
+  access_denied_url: piupiu_homepage
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+    main:
+        anonymous: ~
+        logout:
+          path: /logout
+          target: /
+        provider: database_users
+        guard:
+            authenticators:
+                - login_authenticator
+
+  access_control:
+    - { path: ^/admin, roles: ROLE_ADMIN }
+    - { path: ^/current_location, roles: ROLE_PRO }
+    - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/, roles: IS_AUTHENTICATED_FULLY}
+
+  encoders:
+    PiupiuBundle\Entity\User:
+      algorithm: bcrypt
+      cost: 13
+
+  providers:
+    database_users:
+      entity:
+        class: PiupiuBundle:User
+        property: username
+
+  role_hierarchy:
+    ROLE_PRO:   ROLE_USER
+    ROLE_ADMIN: [ROLE_PRO, ROLE_USER]

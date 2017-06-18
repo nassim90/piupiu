@@ -1,11 +1,14 @@
 piupiu_homepage:
-    path:     /
-    defaults: { _controller: PiupiuBundle:Default:index }
+  path:     /
+  defaults: { _controller: PiupiuBundle:Default:index }
 
 piupiu_curr_loc:
-    path:   /current_location
-    defaults: { _controller: PiupiuBundle:Default:currentLocation }
+  path:   /current_location
+  defaults: { _controller: PiupiuBundle:Default:currentLocation }
 
 security_login:
   path: /login
   defaults: { _controller: PiupiuBundle:Login:login }
+
+security_logout:
+  path: /logout

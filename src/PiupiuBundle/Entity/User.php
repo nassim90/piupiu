@@ -315,8 +315,16 @@ class User implements UserInterface
      * @return (Role|string)[] The user roles
      */
     public function getRoles() {
-        // TODO: Implement getRoles() method.
-        return [];
+        $accountType = $this->getAccountType()->getDesignation();
+        $role = '';
+        if ($accountType == 'admin') {
+            $role = 'ROLE_ADMIN';
+        } else if ($accountType == 'naturaliste') {
+            $role = 'ROLE_PRO';
+        } else if ($accountType == 'particulier') {
+            $role = 'ROLE_USER';
+        }
+        return [$role];
     }
 
     /**

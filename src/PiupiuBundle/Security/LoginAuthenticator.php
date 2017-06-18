@@ -7,6 +7,7 @@
 
 namespace PiupiuBundle\Security;
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
@@ -95,7 +96,17 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator
      * {@inheritdoc}
      */
     protected function getDefaultSuccessRedirectUrl() {
-        return $this->container->get('router')
-            ->generate('piupiu_homepage');
+        $url = $this->container->get('router')->generate('piupiu_homepage');
+        return new RedirectResponse($url);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
+    {
+        $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
+        $url = $this->container->get('router')->generate('security_login');
+        return new RedirectResponse($url);
     }
 }
