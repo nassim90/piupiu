@@ -12,3 +12,7 @@ security_login:
 
 security_logout:
   path: /logout
+
+piupiu_pwd_forgot:
+  path: /forgot-password
+  defaults: { _controller: PiupiuBundle:Login:pwdForgot }

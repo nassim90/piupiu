@@ -1,3 +1,5 @@
-{% if error %}
-    <script>Materialize.toast('{{ error.messageKey|trans(error.messageData) }}', 4000, 'rounded')</script>
+{% if error is defined %}
+    {% if error %}
+        <script>Materialize.toast('{{ error.messageKey|trans(error.messageData) }}', 4000, 'rounded')</script>
+    {% endif %}
 {% endif %}
