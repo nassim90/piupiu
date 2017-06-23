@@ -45,9 +45,10 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator
             return;
         }
 
-        $username = $request->request->get('_username');
+        $form = $request->request->get('piupiu_bundle_login_form_type');
+        $username = $form['username'];
         $request->getSession()->set(Security::LAST_USERNAME, $username);
-        $password = $request->request->get('_password');
+        $password = $form['password'];
 
         return [
             'username' => $username,
@@ -66,12 +67,12 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator
      */
     public function getUser($credentials, UserProviderInterface $userProvider) {
         $username = $credentials['username'];
-        /*$userRepo = $this->container
+        $userRepo = $this->container
             ->get('doctrine')
             ->getManager()
             ->getRepository('PiupiuBundle:User');
-        return $userRepo->findByUsernameOrEmail($username);*/
-        return $userProvider->loadUserByUsername($username);
+        return $userRepo->findByUsernameOrEmail($username);
+//        return $userProvider->loadUserByUsername($username);
     }
 
     /**

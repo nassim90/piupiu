@@ -11,6 +11,12 @@ web_profiler:
     toolbar: true
     intercept_redirects: false
 
+swiftmailer:
+#    delivery_addresses: ['admin@piupui.com']
+    transport: smtp
+    host: 'localhost'
+    port: 1025
+
 monolog:
     handlers:
         main:
