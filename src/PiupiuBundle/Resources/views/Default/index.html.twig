@@ -17,6 +17,12 @@
 </head>
 <body>
 <h1>PiuPiu</h1>
+{#{% if app.session.get('first_login') is defined %}#}
+    {#{% set first_login = app.session.get('first_login') %}#}
+    {#{% if first_login %}#}
+        {#{{ 'You need to change your password' }}#}
+    {#{% endif %}#}
+{#{% endif %}#}
 <div id="map"></div>
 <script>
     var map;

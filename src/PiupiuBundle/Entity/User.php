@@ -40,6 +40,13 @@ class User implements UserInterface
     /**
      * @var string
      *
+     * @ORM\Column(name="first_login", type="boolean", nullable=true)
+     */
+    private $firstLogin = true;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="prename", type="string", length=255)
      */
     private $prename;
@@ -370,5 +377,29 @@ class User implements UserInterface
     public function getLastLoginTime()
     {
         return $this->lastLoginTime;
+    }
+
+    /**
+     * Set firstLogin
+     *
+     * @param boolean $firstLogin
+     *
+     * @return User
+     */
+    public function setFirstLogin($firstLogin)
+    {
+        $this->firstLogin = $firstLogin;
+
+        return $this;
+    }
+
+    /**
+     * Get firstLogin
+     *
+     * @return boolean
+     */
+    public function getFirstLogin()
+    {
+        return $this->firstLogin;
     }
 }

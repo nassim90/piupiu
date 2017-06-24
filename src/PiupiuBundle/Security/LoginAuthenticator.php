@@ -7,8 +7,10 @@
 
 namespace PiupiuBundle\Security;
 
+use PiupiuBundle\Entity\User;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\Security;
@@ -20,9 +22,11 @@ use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticato
 class LoginAuthenticator extends AbstractFormLoginAuthenticator
 {
     private $container;
+    private $user;
 
     public function __construct(ContainerInterface $container) {
         $this->container = $container;
+        $this->user      = new User();
     }
 
     /**
@@ -71,7 +75,8 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator
             ->get('doctrine')
             ->getManager()
             ->getRepository('PiupiuBundle:User');
-        return $userRepo->findByUsernameOrEmail($username);
+        $this->user = $userRepo->findByUsernameOrEmail($username);
+        return $this->user;
 //        return $userProvider->loadUserByUsername($username);
     }
 
@@ -108,6 +113,23 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator
     {
         $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
         $url = $this->container->get('router')->generate('security_login');
+        return new RedirectResponse($url);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey) {
+        $firstLogin = $this->user->getFirstLogin();
+
+        if ($firstLogin) {
+            $request->getSession()->set('first_login', true);
+            $url = $this->container->get('router')->generate('piupiu_change_pwd');
+        } else {
+            $request->getSession()->set('first_login', false);
+            $url = $this->container->get('router')->generate('piupiu_homepage');
+        }
+
         return new RedirectResponse($url);
     }
 }

@@ -2,11 +2,11 @@
 
 namespace PiupiuBundle\Controller;
 
-use Doctrine\ORM\EntityManager;
+use PiupiuBundle\Form\ChangePasswordFormType;
 use PiupiuBundle\Form\LoginFormType;
-use PiupiuBundle\Form\PasswordForgottenFormType;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use PiupiuBundle\Form\PasswordForgottenFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class LoginController extends Controller
@@ -18,12 +18,9 @@ class LoginController extends Controller
         }
 
         $form = $this->createForm(LoginFormType::class);
-
         $helper = $this->get('security.authentication_utils');
-        return $this->render('PiupiuBundle:Default:login.html.twig', [
-            // last username entered by the user (if any)
+        return $this->render('PiupiuBundle:Authentication:login.html.twig', [
             'last_username' => $helper->getLastUsername(),
-            // last authentication error (if any)
             'error'         => $helper->getLastAuthenticationError(),
             'form'          => $form->createView()
         ]);
@@ -51,12 +48,19 @@ class LoginController extends Controller
                     return $this->redirectToRoute('security_login');
                 }
             }
-            //todo: change pwd on first login (model and func)
         }
 
-        return $this->render('PiupiuBundle:Default:pwd_forgot.html.twig', [
+        return $this->render('PiupiuBundle:Authentication:pwd_forgot.html.twig', [
             'form'  => $form->createView(),
             'toast' => $toast
         ]);
     }
-}
+
+    public function changePwdAction() {
+        //todo: change pwd on first login (model and func)
+        $form = $this->createForm(ChangePasswordFormType::class);
+
+        return $this->render('PiupiuBundle:Authentication:change_password.html.twig', [
+            'form'  => $form->createView(),
+        ]);
+    }}

@@ -8,14 +8,11 @@
 namespace PiupiuBundle\Service;
 
 
-use Doctrine\ORM\EntityManager;
 use PiupiuBundle\Entity\User;
-//use Symfony\Bundle\FrameworkBundle\Translation\Translator;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Config\Definition\Exception\Exception;
-use Symfony\Component\Translation\Translator;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 
 class PasswordForgotten
 {
