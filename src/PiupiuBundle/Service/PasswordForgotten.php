@@ -31,6 +31,7 @@ class PasswordForgotten
             $plainpwd = time();
             $password = $this->encoder->encodePassword($user, $plainpwd);
             $user->setPassword($password);
+            $user->setFirstLogin(True);
             $this->em->persist($user);
             $this->em->flush();
             return $plainpwd;
@@ -41,7 +42,7 @@ class PasswordForgotten
 
     public function sendNewPwdMail(User $user, $plainpwd) {
         $translator = $this->container->get('translator');
-        $subject = $translator->trans('Your temporary email');
+        $subject = $translator->trans('Your temporary password');
         $message = \Swift_Message::newInstance();
         $message
             ->setSubject($subject)
