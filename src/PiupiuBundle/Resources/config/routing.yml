@@ -19,4 +19,8 @@ piupiu_pwd_forgot:
 
 piupiu_change_pwd:
   path: /change-password
-  defaults: { _controller: PiupiuBundle:Login:changePwd}
+  defaults: { _controller: PiupiuBundle:Login:changePwd }
+
+piupiu_create_account:
+  path: /register
+  defaults: { _controller: PiupiuBundle:Login:createAccount }

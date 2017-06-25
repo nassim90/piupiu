@@ -3,6 +3,7 @@
 namespace PiupiuBundle\Controller;
 
 use PiupiuBundle\Form\LoginFormType;
+use PiupiuBundle\Form\UserType;
 use Symfony\Component\HttpFoundation\Request;
 use PiupiuBundle\Form\ChangePasswordFormType;
 use PiupiuBundle\Form\PasswordForgottenFormType;
@@ -85,4 +86,14 @@ class LoginController extends Controller
             'form'          => $form->createView(),
             'first_login'   => $firslogin
         ]);
-    }}
+    }
+
+    public function createAccountAction(Request $request) {
+        $form = $this->createForm(UserType::class);
+
+        return $this->render('PiupiuBundle:Authentication:register.html.twig', [
+            'form'          => $form->createView(),
+        ]);
+    }
+
+}
