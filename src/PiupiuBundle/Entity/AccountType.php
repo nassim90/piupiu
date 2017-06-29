@@ -2,8 +2,9 @@
 
 namespace PiupiuBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * AccountType
@@ -31,6 +32,7 @@ class AccountType
 
     /**
      * @ORM\OneToMany(targetEntity="User", mappedBy="account_type")
+     * @Assert\Valid()
      */
     private $users;
 

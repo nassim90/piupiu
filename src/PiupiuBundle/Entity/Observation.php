@@ -3,6 +3,7 @@
 namespace PiupiuBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Observation
@@ -25,6 +26,7 @@ class Observation
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="datetime")
+     * @Assert\DateTime()
      */
     private $date;
 
@@ -32,6 +34,7 @@ class Observation
      * @var string
      *
      * @ORM\Column(name="gps_long", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $gpsLong;
 
@@ -39,6 +42,7 @@ class Observation
      * @var string
      *
      * @ORM\Column(name="gps_lat", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $gpsLat;
 
@@ -59,6 +63,7 @@ class Observation
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="observations")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @Assert\Valid()
      */
     private $user;
 
@@ -66,6 +71,7 @@ class Observation
      * Many Observations have One Bird.
      * @ORM\ManyToOne(targetEntity="Bird", inversedBy="observations")
      * @ORM\JoinColumn(name="bird_id", referencedColumnName="id")
+     * @Assert\Valid()
      */
     private $bird;
 

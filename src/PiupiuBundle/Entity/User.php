@@ -4,6 +4,7 @@ namespace PiupiuBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -27,6 +28,7 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="username", type="string", length=255, unique=true)
+     * @Assert\NotBlank()
      */
     private $username;
 
@@ -34,6 +36,7 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $password;
 
@@ -48,6 +51,7 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="prename", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $prename;
 
@@ -55,6 +59,7 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="surname", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $surname;
 
@@ -62,6 +67,8 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Email()
      */
     private $email;
 
@@ -69,11 +76,13 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="phone", type="string", length=255, nullable=true)
+     *
      */
     private $phone;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Assert\DateTime()
      */
     private $lastLoginTime;
 
