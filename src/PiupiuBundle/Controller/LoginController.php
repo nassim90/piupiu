@@ -102,7 +102,8 @@ class LoginController extends Controller
             $em->persist($user);
             $em->flush();
             $flashBag->add('toast', 'Your account has successfully been created');
-            //todo: send mail on account creation ? to confirm mail? => mail confirmed modelisation!
+            return $this->redirectToRoute('piupiu_homepage');
+            //todo: send mail on account creation ? just with username ?
             //todo: notify admin on 'naturaliste' account creation
         }
 
