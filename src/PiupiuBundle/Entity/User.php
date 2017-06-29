@@ -6,12 +6,15 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * User
  *
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="PiupiuBundle\Repository\UserRepository")
+ * @UniqueEntity("username")
+ * @UniqueEntity("email")
  */
 class User implements UserInterface
 {
@@ -37,6 +40,8 @@ class User implements UserInterface
      *
      * @ORM\Column(name="password", type="string", length=255)
      * @Assert\NotBlank()
+     * @Assert\Regex("((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,24})")
+     *
      */
     private $password;
 
@@ -76,7 +81,9 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="phone", type="string", length=255, nullable=true)
-     *
+     * @Assert\Type(
+     *     type="digit",
+     * )
      */
     private $phone;
 
@@ -89,6 +96,7 @@ class User implements UserInterface
     /**
      * @ORM\ManyToOne(targetEntity="AccountType", inversedBy="users")
      * @ORM\JoinColumn(name="account_type_id", referencedColumnName="id")
+     * @Assert\Valid()
      */
     private $account_type;
 

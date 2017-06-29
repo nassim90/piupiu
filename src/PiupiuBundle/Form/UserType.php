@@ -2,13 +2,16 @@
 
 namespace PiupiuBundle\Form;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class UserType extends AbstractType
 {
@@ -24,7 +27,7 @@ class UserType extends AbstractType
             ])
             ->add('password', PasswordType::class, [
                 'required'  => true,
-                'attr'      => ['placeholder'   => 'Your username']
+                'attr'      => ['placeholder'   => 'Your password']
             ])
 //            ->add('firstLogin')
             ->add('prename', TextType::class, [
@@ -43,6 +46,17 @@ class UserType extends AbstractType
             ])
             ->add('phone', TextType::class, [
                 'attr'      => ['placeholder'   => 'Your phone number']
+            ])
+            ->add('accountType', EntityType::class, [
+                'class'         => 'PiupiuBundle:AccountType',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('at')
+                        ->where('at.designation != ?1')
+                        ->setParameter(1, 'admin')
+                        ->orderBy('at.designation', 'DESC');
+                },
+                'choice_label'  => 'designation',
+                'multiple'      => false,
             ])
 //            ->add('lastLoginTime')
 //            ->add('account_type');

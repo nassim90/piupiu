@@ -2,6 +2,7 @@
 
 namespace PiupiuBundle\Controller;
 
+use PiupiuBundle\Entity\User;
 use PiupiuBundle\Form\LoginFormType;
 use PiupiuBundle\Form\UserType;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,11 +55,10 @@ class LoginController extends Controller
     }
 
     public function changePwdAction(Request $request) {
-        //todo: change pwd on first login (model and func)
-        $flashBag   = $request->getSession()->getFlashBag();
-        $encoder    = $this->container->get('security.password_encoder');
         $em         = $this->getDoctrine()->getManager();
         $user       = $this->get('security.token_storage')->getToken()->getUser();
+        $encoder    = $this->container->get('security.password_encoder');
+        $flashBag   = $request->getSession()->getFlashBag();
         $firslogin  = $user->getFirstLogin();
 
         $form = $this->createForm(ChangePasswordFormType::class);
@@ -69,13 +69,13 @@ class LoginController extends Controller
                 $flashBag->add('toast', 'Old password is incorrect');
             } else {
                 if ($data['old_password'] != $data['new_password']) {
-                $password = $encoder->encodePassword($user, $data['new_password']);
-                $user->setPassword($password);
-                $user->setFirstLogin(False);
-                $em->persist($user);
-                $em->flush();
-                $flashBag->add('toast', 'Your password has been changed');
-                return $this->redirectToRoute('piupiu_homepage');
+                    $password = $encoder->encodePassword($user, $data['new_password']);
+                    $user->setPassword($password);
+                    $user->setFirstLogin(False);
+                    $em->persist($user);
+                    $em->flush();
+                    $flashBag->add('toast', 'Your password has been changed');
+                    return $this->redirectToRoute('piupiu_homepage');
                 } else {
                     $flashBag->add('toast', 'Your old and new password cannot be identical');
                 }
@@ -89,7 +89,22 @@ class LoginController extends Controller
     }
 
     public function createAccountAction(Request $request) {
-        $form = $this->createForm(UserType::class);
+        $em         = $this->getDoctrine()->getManager();
+        $form       = $this->createForm(UserType::class);
+        $encoder    = $this->container->get('security.password_encoder');
+        $flashBag   = $request->getSession()->getFlashBag();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
+            $user->setFirstLogin(False);
+            $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
+            $em->persist($user);
+            $em->flush();
+            $flashBag->add('toast', 'Your account has successfully been created');
+            //todo: send mail on account creation ? to confirm mail? => mail confirmed modelisation!
+            //todo: notify admin on 'naturaliste' account creation
+        }
 
         return $this->render('PiupiuBundle:Authentication:register.html.twig', [
             'form'          => $form->createView(),
