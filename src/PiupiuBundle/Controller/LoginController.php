@@ -2,9 +2,8 @@
 
 namespace PiupiuBundle\Controller;
 
-use PiupiuBundle\Entity\User;
-use PiupiuBundle\Form\LoginFormType;
 use PiupiuBundle\Form\UserType;
+use PiupiuBundle\Form\LoginFormType;
 use Symfony\Component\HttpFoundation\Request;
 use PiupiuBundle\Form\ChangePasswordFormType;
 use PiupiuBundle\Form\PasswordForgottenFormType;
@@ -103,8 +102,6 @@ class LoginController extends Controller
             $em->flush();
             $flashBag->add('toast', 'Your account has successfully been created');
             return $this->redirectToRoute('piupiu_homepage');
-            //todo: send mail on account creation ? just with username ?
-            //todo: notify admin on 'naturaliste' account creation
         }
 
         return $this->render('PiupiuBundle:Authentication:register.html.twig', [

@@ -12,7 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
-class UserType extends AbstractType
+class ChangeProfilType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -20,15 +20,6 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username', TextType::class, [
-                'required'  => true,
-                'attr'      => ['placeholder'   => 'Your username']
-            ])
-            ->add('password', PasswordType::class, [
-                'required'  => true,
-                'attr'      => ['placeholder'   => 'Your password']
-            ])
-//            ->add('firstLogin')
             ->add('prename', TextType::class, [
                 'required'  => true,
                 'label'     => 'Firstname',
@@ -46,21 +37,8 @@ class UserType extends AbstractType
             ->add('phone', TextType::class, [
                 'attr'      => ['placeholder'   => 'Your phone number']
             ])
-            ->add('accountType', EntityType::class, [
-                'class'         => 'PiupiuBundle:AccountType',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('at')
-                        ->where('at.designation != ?1')
-                        ->setParameter(1, 'admin')
-                        ->orderBy('at.designation', 'DESC');
-                },
-                'choice_label'  => 'designation',
-                'multiple'      => false,
-            ])
-//            ->add('lastLoginTime')
-//            ->add('account_type');
             ->add('submit', SubmitType::class, [
-                'label' => 'Sign up'
+                'label' => 'Modify'
             ])
         ;
     }

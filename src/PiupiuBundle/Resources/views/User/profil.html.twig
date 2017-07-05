@@ -1,0 +1,28 @@
+{% extends 'PiupiuBundle:Layout:layout.html.twig' %}
+{% block title %}Piupiu user profil{% endblock title %}
+{% block body %}
+    <h1>{{ 'Your profil' | trans }}</h1>
+    <h2>{{ user.username }}</h2>
+    <div class="row">
+        <div class="col s6">
+            <span class="badge">{{ 'last login' | trans }}: {{ user.lastLoginTime | date('d/m/Y H:i') }}</span>
+            {{ form_start(form) }}
+            {{ form_errors(form) }}
+
+            {{ form_row(form.surname) }}
+            {{ form_row(form.prename) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.phone) }}
+
+            {{ form_row(form.submit, {'label': 'modify'}) }}
+
+            {{ form_widget(form._token) }}
+            {{ form_end(form, {'render_rest': false}) }}
+
+            <a href="{{ path('piupiu_change_pwd') }}">{{ 'Change your password' | trans }}</a><br>
+            <a href="#">todo: ask for account change</a>
+        </div>
+    </div>
+{% endblock body %}
+{% block script %}
+{% endblock script %}

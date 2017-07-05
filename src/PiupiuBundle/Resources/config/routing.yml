@@ -24,3 +24,7 @@ piupiu_change_pwd:
 piupiu_create_account:
   path: /register
   defaults: { _controller: PiupiuBundle:Login:createAccount }
+
+piupiu_change_profil:
+  path: /myprofil
+  defaults: { _controller: PiupiuBundle:User:profil }
